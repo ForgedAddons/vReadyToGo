@@ -1,0 +1,9 @@
+## Interface: 50400
+## Version: 50400.1
+## Title: |cffc7c7cfv|rReadyToGo
+## Notes: Auto repair and sell grays
+## Author: Drauer | github/ForgedAddons
+## DefaultState: Enabled
+## LoadOnDemand: 0
+
+main.lua
