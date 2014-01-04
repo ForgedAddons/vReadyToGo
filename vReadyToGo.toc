@@ -1,9 +1,13 @@
 ## Interface: 50400
-## Version: 50400.1
+## Version: 50400.2
 ## Title: |cffc7c7cfv|rReadyToGo
 ## Notes: Auto repair and sell grays
 ## Author: Drauer | github/ForgedAddons
 ## DefaultState: Enabled
 ## LoadOnDemand: 0
+
+externals\events.lua
+externals\print.lua
+externals\mint.lua
 
 main.lua

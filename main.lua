@@ -1,23 +1,8 @@
-local format = string.format
-local formatMoney = function(value)
-	if value >= 1e4 then
-		return format("|cffffd700%dg |r|cffc7c7cf%ds |r|cffeda55f%dc|r", value/1e4, strsub(value, -4) / 1e2, strsub(value, -2))
-	elseif value >= 1e2 then
-		return format("|cffc7c7cf%ds |r|cffeda55f%dc|r", strsub(value, -4) / 1e2, strsub(value, -2))
-	else
-		return format("|cffeda55f%dc|r", strsub(value, -2))
-	end
-end
-
+local addon, ns = ...
 local oldMoney
 local itemCount = 0
 
-local event = CreateFrame("Frame")
-event:SetScript("OnEvent", function(self, event, ...) self[event](self, event, ...) end)
-event:RegisterEvent"MERCHANT_SHOW"
-event:RegisterEvent"PLAYER_MONEY"
-
-event.MERCHANT_SHOW = function(self, event, ...)
+ns.RegisterEvent("MERCHANT_SHOW", function(event, ...)
 	oldMoney = GetMoney()
 	-- repair
 	if not IsAltKeyDown() then
@@ -27,12 +12,12 @@ event.MERCHANT_SHOW = function(self, event, ...)
 				local GuildWealth = CanGuildBankRepair() and GetGuildBankWithdrawMoney() > cost
 				if GuildWealth then
 					RepairAllItems(1)
-					print(format("Guild bank repaired for %s.", formatMoney(cost)))
+					ns.Printf("Guild bank repaired for %s.", ns.formatMoney(cost))
 				elseif cost < GetMoney() then
 					RepairAllItems()
-					print(format("Repaired for %s.", formatMoney(cost)))
+					ns.Printf("Repaired for %s.", ns.formatMoney(cost))
 				else
-					print("Repairs were unaffordable.")
+					ns.Print("Repairs were unaffordable.")
 				end
 				HideRepairCursor()
 			end
@@ -49,8 +34,9 @@ event.MERCHANT_SHOW = function(self, event, ...)
 			end
 		end
 	end
-end
-event.PLAYER_MONEY = function(self, event, ...)
+end)
+
+ns.RegisterEvent("PLAYER_MONEY", function(event, ...)
 	local newMoney = GetMoney()
 	if oldMoney and oldMoney > 0 then
 		diffMoney = newMoney - oldMoney
@@ -59,7 +45,7 @@ event.PLAYER_MONEY = function(self, event, ...)
 	end
 
 	if diffMoney > 0 and itemCount > 0 then
-		print(format("Sold %d trash item%s for %s.", itemCount, itemCount ~= 1 and "s" or "", formatMoney(diffMoney)))
+		ns.Printf("Sold %d trash item%s for %s.", itemCount, itemCount ~= 1 and "s" or "", ns.formatMoney(diffMoney))
+		itemCount = 0
 	end
-	itemCount = 0
-end
+end)
