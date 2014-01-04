@@ -12,10 +12,10 @@ ns.RegisterEvent("MERCHANT_SHOW", function(event, ...)
 				local GuildWealth = CanGuildBankRepair() and GetGuildBankWithdrawMoney() > cost
 				if GuildWealth then
 					RepairAllItems(1)
-					ns.Printf("Guild bank repaired for %s.", ns.formatMoney(cost))
+					ns.Printf("Guild bank repaired for %s.", ns.FormatMoney(cost))
 				elseif cost < GetMoney() then
 					RepairAllItems()
-					ns.Printf("Repaired for %s.", ns.formatMoney(cost))
+					ns.Printf("Repaired for %s.", ns.FormatMoney(cost))
 				else
 					ns.Print("Repairs were unaffordable.")
 				end
@@ -45,7 +45,7 @@ ns.RegisterEvent("PLAYER_MONEY", function(event, ...)
 	end
 
 	if diffMoney > 0 and itemCount > 0 then
-		ns.Printf("Sold %d trash item%s for %s.", itemCount, itemCount ~= 1 and "s" or "", ns.formatMoney(diffMoney))
+		ns.Printf("Sold %d trash item%s for %s.", itemCount, itemCount ~= 1 and "s" or "", ns.FormatMoney(diffMoney))
 		itemCount = 0
 	end
 end)
